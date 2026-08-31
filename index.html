@@ -5,6 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pertemuan 1: Selisik Semesta Puisi Rakyat</title>
   <style>
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      body {
+        background-color: white !important;
+        padding-bottom: 0 !important;
+      }
+      .card {
+        box-shadow: none !important;
+        border: 1px solid #cbd5e1 !important;
+        page-break-inside: avoid;
+      }
+    }
+
     :root {
       --primary: #1e3a8a;
       --primary-light: #3b82f6;
@@ -39,6 +54,16 @@
       padding: 2.5rem 1.5rem;
       text-align: center;
       border-bottom: 4px solid var(--accent);
+      position: relative;
+    }
+
+    .header-institution {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #93c5fd;
+      margin-bottom: 0.4rem;
+      font-weight: 700;
     }
 
     header h1 {
@@ -49,9 +74,34 @@
 
     header p {
       font-size: 0.95rem;
-      color: #93c5fd;
+      color: #cbd5e1;
       max-width: 700px;
       margin: 0 auto;
+    }
+
+    .export-container {
+      margin-top: 1.2rem;
+    }
+
+    .btn-pdf {
+      background: #d97706;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.4rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .btn-pdf:hover {
+      background: #b45309;
+      transform: translateY(-1px);
     }
 
     .container {
@@ -269,8 +319,16 @@
 <body>
 
   <header>
+    <div class="header-institution">SMPN 28 Bandung • Bahasa Indonesia Kelas VII</div>
     <h1>Modul Interaktif: Pertemuan 1</h1>
     <p>Menyelami Nilai Filosofis, Struktur Metrik, dan Vitalitas Puisi Rakyat (Pantun, Gurindam, Syair)</p>
+    
+    <!-- Tombol Ekspor PDF Interaktif -->
+    <div class="export-container no-print">
+      <button class="btn-pdf" onclick="exportToPDF()">
+        <span>📄</span> Ekspor Halaman ke PDF
+      </button>
+    </div>
   </header>
 
   <main class="container">
@@ -284,7 +342,7 @@
         Puisi rakyat bukan sekadar permainan rima lisan, melainkan sarana transmisi nilai etik, kontrol sosial, dan rekayasa linguistik para leluhur Nusantara.
       </p>
 
-      <div class="tab-nav">
+      <div class="tab-nav no-print">
         <button class="tab-btn active" onclick="switchTab('pantun')">Pantun</button>
         <button class="tab-btn" onclick="switchTab('gurindam')">Gurindam</button>
         <button class="tab-btn" onclick="switchTab('syair')">Syair</button>
@@ -380,7 +438,7 @@
     </section>
 
     <!-- Section 3: Interactive Rhyme & Metric Analyzer -->
-    <section class="card">
+    <section class="card no-print">
       <div class="card-title">
         <span>⚙️</span> 3. Laboratorium Analisis Rima & Suku Kata (Interaktif)
       </div>
@@ -465,7 +523,7 @@
         <small style="color: var(--text-muted);">Susun 1 bait pantun 4 baris (pola rima a-b-a-b, 8-12 suku kata per baris).</small>
         <textarea id="task-3" rows="4" placeholder="Baris 1 (Sampiran): ...&#10;Baris 2 (Sampiran): ...&#10;Baris 3 (Isi): ...&#10;Baris 4 (Isi): ..."></textarea>
 
-        <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+        <div style="display: flex; gap: 0.5rem; margin-top: 1rem;" class="no-print">
           <button type="button" class="btn" onclick="downloadLKPD()">📥 Unduh Lembar Kerja (.TXT)</button>
           <button type="reset" class="btn btn-secondary">🔄 Reset Formulir</button>
         </div>
@@ -583,6 +641,11 @@
       link.download = `LKPD_1_Puisi_Rakyat_${name.replace(/\s+/g, '_')}.txt`;
       link.click();
       URL.revokeObjectURL(link.href);
+    }
+
+    // Export to PDF function via browser print or automated alert
+    function exportToPDF() {
+      window.print();
     }
   </script>
 </body>
