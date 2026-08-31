@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pertemuan 2: Eksplorasi Unsur Intrinsik Cerita Fantasi</title>
+  <style>
+    :root {
+      --primary: #4338ca;
+      --primary-light: #6366f1;
+      --accent: #059669;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border: #cbd5e1;
+      --success: #15803d;
+      --danger: #b91c1c;
+      --highlight: #fef08a;
+      --radius: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #312e81, #1e1b4b);
+      color: white;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      border-bottom: 4px solid var(--accent);
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.5px;
+    }
+
+    header p {
+      font-size: 0.95rem;
+      color: #c7d2fe;
+      max-width: 750px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 950px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.8rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+
+    /* Interactive Text Reader */
+    .story-box {
+      background: #fdfbf7;
+      border-left: 4px solid var(--primary-light);
+      padding: 1.2rem;
+      border-radius: 6px;
+      font-family: Georgia, serif;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      margin: 1rem 0;
+      position: relative;
+    }
+
+    .story-box p {
+      margin-bottom: 0.8rem;
+    }
+
+    .hl-character {
+      background: #e0e7ff;
+      color: #3730a3;
+      padding: 0 4px;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+
+    .hl-magic {
+      background: #fef3c7;
+      color: #92400e;
+      padding: 0 4px;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+
+    .hl-setting {
+      background: #dcfce7;
+      color: #166534;
+      padding: 0 4px;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+
+    .legend-panel {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+      font-size: 0.85rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .legend-color {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+    }
+
+    /* Interactive Matrix Explorer */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 650px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .element-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      background: #fafafa;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .element-card:hover {
+      border-color: var(--primary-light);
+      background: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    .element-card.active {
+      border-color: var(--primary);
+      background: #eef2ff;
+    }
+
+    .element-card h4 {
+      color: var(--primary);
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .detail-display {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f1f5f9;
+      border-radius: 6px;
+      border-left: 4px solid var(--accent);
+      font-size: 0.95rem;
+    }
+
+    /* Form Components */
+    textarea, input[type="text"] {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      margin-top: 0.4rem;
+      margin-bottom: 0.8rem;
+      font-size: 0.95rem;
+    }
+
+    textarea:focus, input[type="text"]:focus {
+      outline: none;
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+
+    .btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background: #3730a3;
+    }
+
+    .btn-secondary {
+      background: #475569;
+    }
+
+    .btn-secondary:hover {
+      background: #334155;
+    }
+
+    /* Quiz Component */
+    .quiz-option {
+      display: block;
+      background: white;
+      border: 1px solid var(--border);
+      padding: 0.8rem 1rem;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .quiz-option:hover {
+      border-color: var(--primary-light);
+      background: #f8fafc;
+    }
+
+    .quiz-option.correct {
+      background: #dcfce7;
+      border-color: var(--success);
+      color: var(--success);
+      font-weight: bold;
+    }
+
+    .quiz-option.incorrect {
+      background: #fee2e2;
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .feedback-box {
+      margin-top: 0.8rem;
+      padding: 0.8rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Modul Interaktif: Pertemuan 2</h1>
+    <p>Mendedah Semesta Imajinasi: Konsep, Ciri Khas, dan Unsur Intrinsik Teks Cerita Fantasi</p>
+  </header>
+
+  <main class="container">
+
+    <!-- Section 1: Deep Theory & Interactive Reading -->
+    <section class="card">
+      <div class="card-title">
+        <span>🌌</span> 1. Ilustrasi Teks Model & Pembedahan Unsur Cerita
+      </div>
+      <p style="margin-bottom: 1rem; color: var(--text-muted);">
+        Cerita fantasi membangun semesta yang menembus batas hukum fisika dunia nyata namun tetap terikat pada logika internal karangan pengarang. Bacalah teks model kritis berikut yang telah dianotasi:
+      </p>
+
+      <div class="legend-panel">
+        <div class="legend-item">
+          <span class="legend-color" style="background: #e0e7ff; border: 1px solid #3730a3;"></span>
+          <span>Tokoh Khusus / Watak</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color" style="background: #fef3c7; border: 1px solid #92400e;"></span>
+          <span>Keajaiban / Supranatural</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color" style="background: #dcfce7; border: 1px solid #166534;"></span>
+          <span>Latar Ruang & Waktu Imajiner</span>
+        </div>
+      </div>
+
+      <div class="story-box">
+        <p>
+          Tepat saat jam mekanik di menara kota berdentang tiga belas kali, <span class="hl-character">Kael</span>—seorang pemuda perawat arsip kuno yang memiliki kepekaan membaca getaran logam—menyadari ada yang tidak beres. Udara di sekelilingnya mendadak membeku, memancarkan bau belerang bercampur ozon.
+        </p>
+        <p>
+          Dari balik rekahan lantai marmer di <span class="hl-setting">Ruang Bawah Tanah Observatorium Aethelgard</span>, muncul sebongkah kristal ungu menyala. Ketika Kael menyentuhnya, <span class="hl-magic">gravitasi di sekitarnya seketika terbalik; tubuhnya mengambang ringan dan buku-buku berputar membentuk lingkaran pelindung berkecepatan tinggi</span>.
+        </p>
+        <p>
+          Kristal itu bukan sekadar batu permata biasa, melainkan <span class="hl-magic">Kunci Chronos yang mampu melipatgandakan waktu hingga sepuluh menit ke masa lalu</span>. Kael sadar, ia hanya memiliki satu kesempatan sebelum penjaga bayangan menembus portal dimensi.
+        </p>
+      </div>
+    </section>
+
+    <!-- Section 2: Four Core Elements Explorer -->
+    <section class="card">
+      <div class="card-title">
+        <span>🧩</span> 2. Eksplorasi 4 Pilar Intrinsik Semesta Fantasi
+      </div>
+      <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1rem;">
+        Klik salah satu pilar pembangun cerita fantasi di bawah ini untuk melihat ulasan mendalam dan fungsinya dalam membangun naskah narasi yang kokoh:
+      </p>
+
+      <div class="grid-2">
+        <div class="element-card active" onclick="showElementDetail('tema', this)">
+          <h4><span>🔮</span> 1. Ide Tema Spekulatif</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Landasan premis yang melampaui realitas faktual.</p>
+        </div>
+
+        <div class="element-card" onclick="showElementDetail('tokoh', this)">
+          <h4><span>🧙‍♂️</span> 2. Karakterisasi Berdaya Khusus</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Tokoh berwatak kuat dengan keunikan/kekuatan magis.</p>
+        </div>
+
+        <div class="element-card" onclick="showElementDetail('latar', this)">
+          <h4><span>🪐</span> 3. Latar Lintas Dimensi/Waktu</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Penciptaan dunia baru, era futuristik, atau portal masa lalu.</p>
+        </div>
+
+        <div class="element-card" onclick="showElementDetail('aturan', this)">
+          <h4><span>📜</span> 4. Logika & Konsekuensi Keajaiban</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Hukum sebab-akibat dari unsur magis atau sains fiksi.</p>
+        </div>
+      </div>
+
+      <div id="element-detail-box" class="detail-display">
+        <strong>Ide Tema Spekulatif:</strong> Cerita fantasi tidak dibatasi oleh fakta empiris. Tema dapat berupa pertarungan energi alam semesta, penjelajahan antar-galaksi, eksplorasi artefak terlarang, hingga paradoks waktu. Kendati bebas, tema harus memiliki pesan moral/filosofis yang berakar pada kemanusiaan.
+      </div>
+    </section>
+
+    <!-- Section 3: Critical Concept Check -->
+    <section class="card">
+      <div class="card-title">
+        <span>🎯</span> 3. Uji Penalaran Kritis Unsur Fantasi
+      </div>
+      <div id="quiz-container">
+        <p id="quiz-question" style="font-weight: 600; margin-bottom: 1rem;">
+          Berdasarkan teks model <em>Kael dan Kunci Chronos</em>, manakah pernyataan yang paling tepat membuktikan bahwa teks tersebut tergolong cerita fantasi?
+        </p>
+        <div id="quiz-options">
+          <div class="quiz-option" onclick="checkQuiz(this, false, 'Salah. Tokoh penjaga arsip dan jam menara adalah elemen yang bisa dijumpai di dunia nyata.')">
+            A. Cerita mengangkat profesi penjaga arsip perpustakaan dan jam menara tua.
+          </div>
+          <div class="quiz-option" onclick="checkQuiz(this, true, 'Tepat sekali! Pembalikan gravitasi dan kemampuan memutar waktu 10 menit merupakan peristiwa supranatural yang melampaui hukum fisika dunia nyata.')">
+            B. Terjadinya pembalikan medan gravitasi dan keberadaan kristal pelipat waktu.
+          </div>
+          <div class="quiz-option" onclick="checkQuiz(this, false, 'Salah. Menara kota yang berdentang merupakan peristiwa fisis biasa, bukan keajaiban supranatural mutlak.')">
+            C. Jam mekanik di menara kota berdentang sebanyak tiga belas kali.
+          </div>
+          <div class="quiz-option" onclick="checkQuiz(this, false, 'Salah. Rasa panik tokoh adalah emosi umum manusia dan bukan bukti utama keajaiban fantasi.')">
+            D. Tokoh merasa cemas saat portal dimensi mulai didekati musuh.
+          </div>
+        </div>
+        <div id="quiz-feedback" class="feedback-box"></div>
+      </div>
+    </section>
+
+    <!-- Section 4: LKPD 2 - Bedah Intrinsik Terstruktur -->
+    <section class="card">
+      <div class="card-title">
+        <span>📝</span> 4. Lembar Kerja Peserta Didik (LKPD 2: Analisis Intrinsik)
+      </div>
+      <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
+        Rancang konsep dasar sebuah semesta cerita fantasi buatanmu sendiri secara terstruktur. Setelah selesai, unduh hasilnya sebagai lembar tugas mandiri.
+      </p>
+
+      <form id="lkpd2-form">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div>
+            <label for="student-name" style="font-weight: bold; font-size: 0.85rem;">Nama Siswa:</label>
+            <input type="text" id="student-name" placeholder="Nama lengkap..." required>
+          </div>
+          <div>
+            <label for="student-class" style="font-weight: bold; font-size: 0.85rem;">Kelas / No. Presensi:</label>
+            <input type="text" id="student-class" placeholder="Contoh: 7-D / 08" required>
+          </div>
+        </div>
+
+        <label for="task-premise" style="font-weight: bold; font-size: 0.9rem; margin-top: 0.5rem; display: block;">
+          1. Premis Ide Cerita & Pesan Moral Utama:
+        </label>
+        <small style="color: var(--text-muted);">Gambarkan dalam 1-2 kalimat: Konflik fantasi apa yang dihadapi tokoh dan apa pesan hidup yang ingin disampaikan?</small>
+        <textarea id="task-premise" rows="2" placeholder="Contoh: Seorang anak penenun menemukan benang cahaya yang dapat memperbaiki retakan langit, mengajarkan pentingnya pengorbanan dan tanggung jawab..."></textarea>
+
+        <label for="task-character" style="font-weight: bold; font-size: 0.9rem; margin-top: 0.5rem; display: block;">
+          2. Profil Tokoh Utama & Keunikan/Kesaktian:
+        </label>
+        <small style="color: var(--text-muted);">Sebutkan nama tokoh, sifat dominan, serta kemampuan supranatural beserta batas kelemahannya.</small>
+        <textarea id="task-character" rows="3" placeholder="Nama: ...&#10;Watak: ...&#10;Kekuatan Magis/Khusus: ...&#10;Kelemahan Terbesar: ..."></textarea>
+
+        <label for="task-setting" style="font-weight: bold; font-size: 0.9rem; margin-top: 0.5rem; display: block;">
+          3. Deskripsi Latar Tempat & Aturan Keajaiban:
+        </label>
+        <small style="color: var(--text-muted);">Gambarkan tempat terjadinya peristiwa dan jelaskan 1 hukum gaib/teknologi khusus yang berlaku di tempat tersebut.</small>
+        <textarea id="task-setting" rows="3" placeholder="Latar Tempat: ...&#10;Hukum Semesta/Keajaiban: (Misal: Tanaman hanya bisa tumbuh jika disiram air mata penyesalan)"></textarea>
+
+        <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+          <button type="button" class="btn" onclick="downloadLKPD2()">📥 Unduh Lembar Kerja (.TXT)</button>
+          <button type="reset" class="btn btn-secondary">🔄 Reset</button>
+        </div>
+      </form>
+    </section>
+
+  </main>
+
+  <script>
+    // Elements Explorer Controller
+    const elementDetails = {
+      tema: "<strong>Ide Tema Spekulatif:</strong> Cerita fantasi tidak dibatasi oleh fakta empiris. Tema dapat berupa pertarungan energi alam semesta, penjelajahan antar-galaksi, eksplorasi artefak terlarang, hingga paradoks waktu. Kendati bebas, tema harus memiliki pesan moral/filosofis yang berakar pada kemanusiaan.",
+      tokoh: "<strong>Karakterisasi Berdaya Khusus:</strong> Tokoh dalam teks fantasi sering kali dibekali keahlian luar biasa, berkah leluhur, atau mutasi sains fiksi. Namun, cerita yang kuat menuntut tokoh memiliki kelemahan fatal (flaw) agar perjuangannya terasa nyata dan bernilai dramatis.",
+      latar: "<strong>Latar Lintas Dimensi & Waktu:</strong> Ruang penceritaan dapat berupa dunia rekaan total (High Fantasy) atau perpaduan dengan geografi bumi nyata. Waktu bisa bergerak melompat (time leap), berjalan simultan pada dua dunia paralel, atau melambat sesuai kehendak mantra/teknologi.",
+      aturan: "<strong>Logika & Konsekuensi Keajaiban:</strong> Keajaiban dalam cerita fantasi tidak boleh bersifat acak tanpa batas. Harus ada harga, batas penggunaan energi, atau resiko bahaya saat tokoh menggunakan kekuatannya agar alur cerita tidak kehilangan rasa ketegangan."
+    };
+
+    function showElementDetail(type, el) {
+      document.querySelectorAll('.element-card').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('element-detail-box').innerHTML = elementDetails[type];
+    }
+
+    // Formative Quiz Logic
+    function checkQuiz(element, isCorrect, explanation) {
+      let options = document.querySelectorAll('.quiz-option');
+      options.forEach(opt => {
+        opt.style.pointerEvents = 'none';
+      });
+
+      let fb = document.getElementById('quiz-feedback');
+      fb.style.display = 'block';
+
+      if (isCorrect) {
+        element.classList.add('correct');
+        fb.style.background = '#dcfce7';
+        fb.style.color = '#15803d';
+        fb.innerHTML = `<strong>Jawaban Tepat!</strong> ${explanation}`;
+      } else {
+        element.classList.add('incorrect');
+        fb.style.background = '#fee2e2';
+        fb.style.color = '#b91c1c';
+        fb.innerHTML = `<strong>Jawaban Kurang Tepat.</strong> ${explanation}`;
+      }
+    }
+
+    // Export LKPD 2 to .TXT File
+    function downloadLKPD2() {
+      let name = document.getElementById('student-name').value;
+      let sClass = document.getElementById('student-class').value;
+      let premise = document.getElementById('task-premise').value;
+      let character = document.getElementById('task-character').value;
+      let setting = document.getElementById('task-setting').value;
+
+      if (!name || !sClass) {
+        alert('Mohon lengkapi Nama dan Kelas terlebih dahulu!');
+        return;
+      }
+
+      let content = `========================================================\n` +
+                    `LEMBAR KERJA PESERTA DIDIK (LKPD 2) - UNSUR INTRINSIK FANTASI\n` +
+                    `Mata Pelajaran : Bahasa Indonesia Kelas 7\n` +
+                    `Kurikulum      : Kurikulum Merdeka (Deep Learning)\n` +
+                    `========================================================\n\n` +
+                    `Nama Siswa : ${name}\n` +
+                    `Kelas/Absen: ${sClass}\n` +
+                    `Tanggal    : ${new Date().toLocaleDateString('id-ID')}\n\n` +
+                    `--------------------------------------------------------\n` +
+                    `1. PREMIS IDE CERITA & PESAN MORAL\n` +
+                    `--------------------------------------------------------\n` +
+                    `${premise || '(Belum diisi)'}\n\n` +
+                    `--------------------------------------------------------\n` +
+                    `2. PROFIL TOKOH, KEKUATAN & KELEMAHAN\n` +
+                    `--------------------------------------------------------\n` +
+                    `${character || '(Belum diisi)'}\n\n` +
+                    `--------------------------------------------------------\n` +
+                    `3. LATAR TEMPAT & ATURAN HUKUM KEAJAIBAN\n` +
+                    `--------------------------------------------------------\n` +
+                    `${setting || '(Belum diisi)'}\n\n` +
+                    `========================================================\n` +
+                    `Status: Draf Karakter & Semesta Fantasi Berhasil Dibuat.\n`;
+
+      let blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+      let link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `LKPD_2_Unsur_Fantasi_${name.replace(/\s+/g, '_')}.txt`;
+      link.click();
+      URL.revokeObjectURL(link.href);
+    }
+  </script>
+</body>
+</html>

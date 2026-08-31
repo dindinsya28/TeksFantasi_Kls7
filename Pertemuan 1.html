@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pertemuan 1: Selisik Semesta Puisi Rakyat</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #3b82f6;
+      --accent: #d97706;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border: #e2e8f0;
+      --success: #15803d;
+      --danger: #b91c1c;
+      --radius: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e3a8a, #1e293b);
+      color: white;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      border-bottom: 4px solid var(--accent);
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.5px;
+    }
+
+    header p {
+      font-size: 0.95rem;
+      color: #93c5fd;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 950px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.8rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+
+    /* Tabs */
+    .tab-nav {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      background: var(--primary-light);
+      color: white;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Verses Display */
+    .verse-box {
+      background: #f1f5f9;
+      border-left: 4px solid var(--accent);
+      padding: 1rem 1.2rem;
+      border-radius: 4px;
+      margin: 1rem 0;
+      font-family: Georgia, serif;
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+
+    .rhyme-tag {
+      font-weight: bold;
+      color: var(--primary-light);
+      background: #e0f2fe;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+    }
+
+    /* Table */
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.75rem 1rem;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f1f5f9;
+      color: var(--primary);
+    }
+
+    /* Interactive Analyzer */
+    .interactive-panel {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius);
+      padding: 1.2rem;
+      margin-top: 1rem;
+    }
+
+    textarea, input[type="text"], select {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      margin-top: 0.4rem;
+      margin-bottom: 0.8rem;
+      font-size: 0.95rem;
+    }
+
+    textarea:focus, input[type="text"]:focus, select:focus {
+      outline: none;
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+
+    .btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background: #1d4ed8;
+    }
+
+    .btn-secondary {
+      background: #475569;
+    }
+
+    .btn-secondary:hover {
+      background: #334155;
+    }
+
+    /* Quiz Component */
+    .quiz-option {
+      display: block;
+      background: white;
+      border: 1px solid var(--border);
+      padding: 0.8rem 1rem;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .quiz-option:hover {
+      border-color: var(--primary-light);
+      background: #f0fdf4;
+    }
+
+    .quiz-option.correct {
+      background: #dcfce7;
+      border-color: var(--success);
+      color: var(--success);
+      font-weight: bold;
+    }
+
+    .quiz-option.incorrect {
+      background: #fee2e2;
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .feedback-box {
+      margin-top: 0.8rem;
+      padding: 0.8rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    /* Badge */
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      background: #e2e8f0;
+      color: #334155;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Modul Interaktif: Pertemuan 1</h1>
+    <p>Menyelami Nilai Filosofis, Struktur Metrik, dan Vitalitas Puisi Rakyat (Pantun, Gurindam, Syair)</p>
+  </header>
+
+  <main class="container">
+
+    <!-- Section 1: Deep Theory Exploration -->
+    <section class="card">
+      <div class="card-title">
+        <span>📖</span> 1. Landasan Kritis: Anatomi & Filosofi Puisi Rakyat
+      </div>
+      <p style="margin-bottom: 1rem; color: var(--text-muted);">
+        Puisi rakyat bukan sekadar permainan rima lisan, melainkan sarana transmisi nilai etik, kontrol sosial, dan rekayasa linguistik para leluhur Nusantara.
+      </p>
+
+      <div class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('pantun')">Pantun</button>
+        <button class="tab-btn" onclick="switchTab('gurindam')">Gurindam</button>
+        <button class="tab-btn" onclick="switchTab('syair')">Syair</button>
+      </div>
+
+      <!-- Pantun Tab -->
+      <div id="tab-pantun" class="tab-content active">
+        <span class="badge">Bentuk Tetrametrik Simetris</span>
+        <div class="verse-box">
+          Pohon jati tumbuh di <strong>bukit</strong>, <span class="rhyme-tag">(a) - Sampiran</span><br>
+          Tempat bernaung rusa <strong>berlari</strong>. <span class="rhyme-tag">(b) - Sampiran</span><br>
+          Ilmu dituntut bukan <strong>sedikit</strong>, <span class="rhyme-tag">(a) - Isi</span><br>
+          Bekal hidup hingga ke <strong>hari</strong>. <span class="rhyme-tag">(b) - Isi</span>
+        </div>
+        <ul style="margin-left: 1.5rem; color: var(--text-muted); font-size: 0.95rem;">
+          <li><strong>Struktur:</strong> 4 baris sebait, 8–12 suku kata per baris, pola rima akhir mutlak <code>a-b-a-b</code>.</li>
+          <li><strong>Dialektika Sampiran-Isi:</strong> Baris 1–2 (sampiran) menyiapkan pola rima dan asosiasi alamiah; baris 3–4 (isi) membawa pesan moral, sosial, atau filosofis sesungguhnya.</li>
+        </ul>
+      </div>
+
+      <!-- Gurindam Tab -->
+      <div id="tab-gurindam" class="tab-content">
+        <span class="badge">Kausalitas Etik Dua Baris</span>
+        <div class="verse-box">
+          Kurang pikir kurang <strong>siasat</strong>, <span class="rhyme-tag">(a) - Syarat/Persoalan</span><br>
+          Tentu dirimu kelak <strong>tersesat</strong>. <span class="rhyme-tag">(a) - Akibat/Nasihat</span>
+        </div>
+        <ul style="margin-left: 1.5rem; color: var(--text-muted); font-size: 0.95rem;">
+          <li><strong>Struktur:</strong> 2 baris sebait, 10–14 suku kata, pola rima akhir berpasangan <code>a-a</code>.</li>
+          <li><strong>Logika Kausal:</strong> Baris pertama memuat premis, syarat, atau perbuatan; baris kedua memuat konsekuensi langsung atau hukum sebab-akibat (lazim dipopulerkan oleh Raja Ali Haji dalam <em>Gurindam Dua Belas</em>).</li>
+        </ul>
+      </div>
+
+      <!-- Syair Tab -->
+      <div id="tab-syair" class="tab-content">
+        <span class="badge">Narasi Monorima Kontinu</span>
+        <div class="verse-box">
+          Dengarlah wahai anakanda <strong>muda</strong>, <span class="rhyme-tag">(a)</span><br>
+          Rajinlah belajar selagi <strong>ada</strong>, <span class="rhyme-tag">(a)</span><br>
+          Ilmu laksana lentera di <strong>dada</strong>, <span class="rhyme-tag">(a)</span><br>
+          Penerang jalan tiada <strong>berbeda</strong>. <span class="rhyme-tag">(a)</span>
+        </div>
+        <ul style="margin-left: 1.5rem; color: var(--text-muted); font-size: 0.95rem;">
+          <li><strong>Struktur:</strong> 4 baris sebait, 8–14 suku kata, rima akhir identik <code>a-a-a-a</code>.</li>
+          <li><strong>Karakteristik Naratif:</strong> Tidak memiliki sampiran. Seluruh baris adalah untaian cerita panjang berisi kisah sejarah, kiasan sufistik, atau nasihat berkesinambungan.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Section 2: Comparative Matrix -->
+    <section class="card">
+      <div class="card-title">
+        <span>⚖️</span> 2. Matriks Komparatif Struktur & Kaidah Bahasa
+      </div>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Pantun</th>
+              <th>Gurindam</th>
+              <th>Syair</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Jumlah Baris / Bait</strong></td>
+              <td>4 Baris</td>
+              <td>2 Baris</td>
+              <td>4 Baris</td>
+            </tr>
+            <tr>
+              <td><strong>Pola Rima Akhir</strong></td>
+              <td><code>a - b - a - b</code></td>
+              <td><code>a - a</code></td>
+              <td><code>a - a - a - a</code></td>
+            </tr>
+            <tr>
+              <td><strong>Relasi Antarbaris</strong></td>
+              <td>Baris 1-2: Bayangan/Sampiran<br>Baris 3-4: Inti Nasihat/Isi</td>
+              <td>Baris 1: Syarat/Kondisi<br>Baris 2: Akibat/Hukum Moral</td>
+              <td>Baris 1-4: Seluruhnya isi untaian cerita/petuah</td>
+            </tr>
+            <tr>
+              <td><strong>Ciri Kebahasaan Khusus</strong></td>
+              <td>Ragam kiasan alam, kalimat santun, kata asosiatif.</td>
+              <td>Kalimat kondisional (jika/bila/kurang), hubungan kausal.</td>
+              <td>Ragam kalimat perintah/saran (*wahai, hendaklah*), kata puitis arkais.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 3: Interactive Rhyme & Metric Analyzer -->
+    <section class="card">
+      <div class="card-title">
+        <span>⚙️</span> 3. Laboratorium Analisis Rima & Suku Kata (Interaktif)
+      </div>
+      <p style="font-size: 0.9rem; color: var(--text-muted);">
+        Uji ketepatan metrik pantun buatanmu. Ketik 4 baris pantun di bawah ini untuk menghitung perkiraan suku kata per baris secara otomatis:
+      </p>
+
+      <div class="interactive-panel">
+        <label for="p-line1" style="font-size: 0.85rem; font-weight: bold;">Baris 1 (Sampiran):</label>
+        <input type="text" id="p-line1" placeholder="Contoh: Pergi berlayar ke Pulau Bali" oninput="analyzeVerse()">
+        <small id="c-line1" style="color: var(--text-muted); display: block; margin-bottom: 0.5rem;"></small>
+
+        <label for="p-line2" style="font-size: 0.85rem; font-weight: bold;">Baris 2 (Sampiran):</label>
+        <input type="text" id="p-line2" placeholder="Contoh: Membawa bekal buah delima" oninput="analyzeVerse()">
+        <small id="c-line2" style="color: var(--text-muted); display: block; margin-bottom: 0.5rem;"></small>
+
+        <label for="p-line3" style="font-size: 0.85rem; font-weight: bold;">Baris 3 (Isi):</label>
+        <input type="text" id="p-line3" placeholder="Contoh: Rajin belajar sejak dini" oninput="analyzeVerse()">
+        <small id="c-line3" style="color: var(--text-muted); display: block; margin-bottom: 0.5rem;"></small>
+
+        <label for="p-line4" style="font-size: 0.85rem; font-weight: bold;">Baris 4 (Isi):</label>
+        <input type="text" id="p-line4" placeholder="Contoh: Sukses diraih di masa tua" oninput="analyzeVerse()">
+        <small id="c-line4" style="color: var(--text-muted); display: block; margin-bottom: 0.5rem;"></small>
+
+        <div id="analysis-summary" style="margin-top: 1rem; padding: 0.8rem; background: #e0f2fe; border-radius: 6px; font-size: 0.9rem; font-weight: 600; color: #0369a1; display: none;">
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Formative Critical Quiz -->
+    <section class="card">
+      <div class="card-title">
+        <span>🎯</span> 4. Uji Pemahaman Kritis (Formatif Mandiri)
+      </div>
+      <div id="quiz-container">
+        <p id="quiz-question" style="font-weight: 600; margin-bottom: 1rem;">
+          1. Perhatikan kutipan berikut:<br>
+          <em>"Barang siapa meninggalkan sembahyang,<br>Bagai rumah tiada bertiang."</em><br><br>
+          Berdasarkan struktur metrik dan relasi logis antarbaris, bait di atas dikategorikan sebagai...
+        </p>
+        <div id="quiz-options">
+          <div class="quiz-option" onclick="checkQuiz(this, false, 'Salah. Pantun memiliki 4 baris dengan rima a-b-a-b.')">A. Pantun nasihat</div>
+          <div class="quiz-option" onclick="checkQuiz(this, true, 'Tepat sekali! Memiliki 2 baris berima a-a dengan hubungan syarat pada baris pertama dan akibat/perumpamaan pada baris kedua.')">B. Gurindam</div>
+          <div class="quiz-option" onclick="checkQuiz(this, false, 'Salah. Syair terdiri atas 4 baris sebait.')">C. Syair ibarat</div>
+          <div class="quiz-option" onclick="checkQuiz(this, false, 'Salah. Karmina memang 2 baris, tetapi baris pertamanya murni sampiran non-kausal.')">D. Karmina jenaka</div>
+        </div>
+        <div id="quiz-feedback" class="feedback-box"></div>
+      </div>
+    </section>
+
+    <!-- Section 5: Structured Student Assignment (LKPD 1) -->
+    <section class="card">
+      <div class="card-title">
+        <span>📝</span> 5. Lembar Kerja Peserta Didik (LKPD 1: Terstruktur)
+      </div>
+      <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
+        Isi lembar penugasan digital di bawah ini, lalu klik tombol <strong>"Unduh Lembar Kerja (.TXT)"</strong> untuk menyimpan hasilnya sebagai bukti portofolio tugas.
+      </p>
+
+      <form id="lkpd-form">
+        <label for="student-name" style="font-weight: bold; font-size: 0.9rem;">Nama Lengkap Siswa:</label>
+        <input type="text" id="student-name" placeholder="Ketik nama lengkap..." required>
+
+        <label for="student-class" style="font-weight: bold; font-size: 0.9rem;">Kelas / No. Absen:</label>
+        <input type="text" id="student-class" placeholder="Contoh: 7-D / 14" required>
+
+        <label for="task-1" style="font-weight: bold; font-size: 0.9rem; margin-top: 0.5rem; display: block;">
+          Tugas 1: Analisis Filosofis Makna Pantun
+        </label>
+        <small style="color: var(--text-muted);">Jelaskan makna pesan budi pekerti yang terkandung dalam bait: <em>"Bila memotong kayu di rimba, jangan tebang pohon bidara. Bila bertutur dengan sesama, jaga hati jangan terluka."</em></small>
+        <textarea id="task-1" rows="3" placeholder="Tuliskan analisis maknamu di sini..."></textarea>
+
+        <label for="task-2" style="font-weight: bold; font-size: 0.9rem; margin-top: 0.5rem; display: block;">
+          Tugas 2: Cipta Gurindam Orisinal (Tema: Kejujuran & Disiplin Belajar)
+        </label>
+        <small style="color: var(--text-muted);">Tulis 1 bait gurindam (2 baris) yang memuat hubungan syarat dan akibat secara logis.</small>
+        <textarea id="task-2" rows="2" placeholder="Baris 1 (Syarat): ...&#10;Baris 2 (Akibat): ..."></textarea>
+
+        <label for="task-3" style="font-weight: bold; font-size: 0.9rem; margin-top: 0.5rem; display: block;">
+          Tugas 3: Cipta Pantun Nasihat Lingkungan Hidup
+        </label>
+        <small style="color: var(--text-muted);">Susun 1 bait pantun 4 baris (pola rima a-b-a-b, 8-12 suku kata per baris).</small>
+        <textarea id="task-3" rows="4" placeholder="Baris 1 (Sampiran): ...&#10;Baris 2 (Sampiran): ...&#10;Baris 3 (Isi): ...&#10;Baris 4 (Isi): ..."></textarea>
+
+        <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+          <button type="button" class="btn" onclick="downloadLKPD()">📥 Unduh Lembar Kerja (.TXT)</button>
+          <button type="reset" class="btn btn-secondary">🔄 Reset Formulir</button>
+        </div>
+      </form>
+    </section>
+
+  </main>
+
+  <script>
+    // Tab Controller
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+      event.target.classList.add('active');
+      document.getElementById('tab-' + tabId).classList.add('active');
+    }
+
+    // Syllable Estimation (Indonesian simple vowel counter)
+    function countSyllables(text) {
+      if (!text || text.trim() === '') return 0;
+      let clean = text.toLowerCase().trim();
+      let matches = clean.match(/[aiueoâêîôû]/gi);
+      return matches ? matches.length : 0;
+    }
+
+    // Real-time Verse Analyzer
+    function analyzeVerse() {
+      let l1 = document.getElementById('p-line1').value;
+      let l2 = document.getElementById('p-line2').value;
+      let l3 = document.getElementById('p-line3').value;
+      let l4 = document.getElementById('p-line4').value;
+
+      let c1 = countSyllables(l1);
+      let c2 = countSyllables(l2);
+      let c3 = countSyllables(l3);
+      let c4 = countSyllables(l4);
+
+      document.getElementById('c-line1').innerText = l1 ? `Perkiraan Suku Kata: ${c1} ${c1 >= 8 && c1 <= 12 ? '✅ (Ideal 8-12)' : '⚠️ (Disarankan 8-12)'}` : '';
+      document.getElementById('c-line2').innerText = l2 ? `Perkiraan Suku Kata: ${c2} ${c2 >= 8 && c2 <= 12 ? '✅ (Ideal 8-12)' : '⚠️ (Disarankan 8-12)'}` : '';
+      document.getElementById('c-line3').innerText = l3 ? `Perkiraan Suku Kata: ${c3} ${c3 >= 8 && c3 <= 12 ? '✅ (Ideal 8-12)' : '⚠️ (Disarankan 8-12)'}` : '';
+      document.getElementById('c-line4').innerText = l4 ? `Perkiraan Suku Kata: ${c4} ${c4 >= 8 && c4 <= 12 ? '✅ (Ideal 8-12)' : '⚠️ (Disarankan 8-12)'}` : '';
+
+      let summary = document.getElementById('analysis-summary');
+      if (l1 && l2 && l3 && l4) {
+        summary.style.display = 'block';
+        summary.innerHTML = `Analisis Keseluruhan: Bait lengkap (${c1}-${c2}-${c3}-${c4} suku kata). Pastikan rima akhir baris 1 & 3 selaras, serta baris 2 & 4 selaras (a-b-a-b).`;
+      } else {
+        summary.style.display = 'none';
+      }
+    }
+
+    // Formative Quiz Logic
+    function checkQuiz(element, isCorrect, explanation) {
+      let options = document.querySelectorAll('.quiz-option');
+      options.forEach(opt => {
+        opt.style.pointerEvents = 'none';
+      });
+
+      let fb = document.getElementById('quiz-feedback');
+      fb.style.display = 'block';
+
+      if (isCorrect) {
+        element.classList.add('correct');
+        fb.style.background = '#dcfce7';
+        fb.style.color = '#15803d';
+        fb.innerHTML = `<strong>Jawaban Benar!</strong> ${explanation}`;
+      } else {
+        element.classList.add('incorrect');
+        fb.style.background = '#fee2e2';
+        fb.style.color = '#b91c1c';
+        fb.innerHTML = `<strong>Jawaban Kurang Tepat.</strong> ${explanation}`;
+      }
+    }
+
+    // Export LKPD to .TXT File
+    function downloadLKPD() {
+      let name = document.getElementById('student-name').value;
+      let sClass = document.getElementById('student-class').value;
+      let t1 = document.getElementById('task-1').value;
+      let t2 = document.getElementById('task-2').value;
+      let t3 = document.getElementById('task-3').value;
+
+      if (!name || !sClass) {
+        alert('Mohon lengkapi Nama dan Kelas terlebih dahulu!');
+        return;
+      }
+
+      let content = `========================================================\n` +
+                    `LEMBAR KERJA PESERTA DIDIK (LKPD 1) - PUISI RAKYAT\n` +
+                    `Mata Pelajaran : Bahasa Indonesia Kelas 7\n` +
+                    `Kurikulum      : Kurikulum Merdeka\n` +
+                    `========================================================\n\n` +
+                    `Nama Siswa : ${name}\n` +
+                    `Kelas/Absen: ${sClass}\n` +
+                    `Tanggal    : ${new Date().toLocaleDateString('id-ID')}\n\n` +
+                    `--------------------------------------------------------\n` +
+                    `TUGAS 1: ANALISIS FILOSOFIS MAKNA PANTUN\n` +
+                    `--------------------------------------------------------\n` +
+                    `${t1 || '(Belum diisi)'}\n\n` +
+                    `--------------------------------------------------------\n` +
+                    `TUGAS 2: CIPTA GURINDAM ORISINAL (SYARAT & AKIBAT)\n` +
+                    `--------------------------------------------------------\n` +
+                    `${t2 || '(Belum diisi)'}\n\n` +
+                    `--------------------------------------------------------\n` +
+                    `TUGAS 3: CIPTA PANTUN NASIHAT LINGKUNGAN (A-B-A-B)\n` +
+                    `--------------------------------------------------------\n` +
+                    `${t3 || '(Belum diisi)'}\n\n` +
+                    `========================================================\n` +
+                    `Status: Tugas Mandiri Terstruktur Selesai Disusun.\n`;
+
+      let blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+      let link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `LKPD_1_Puisi_Rakyat_${name.replace(/\s+/g, '_')}.txt`;
+      link.click();
+      URL.revokeObjectURL(link.href);
+    }
+  </script>
+</body>
+</html>

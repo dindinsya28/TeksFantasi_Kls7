@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pertemuan 6: Studio Penulisan & Swasunting Cerita Fantasi</title>
+  <style>
+    :root {
+      --primary: #1e293b;
+      --primary-light: #475569;
+      --accent: #e11d48;
+      --bg: #fff1f2;
+      --surface: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border: #cbd5e1;
+      --success: #15803d;
+      --danger: #b91c1c;
+      --radius: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #881337, #4c0519);
+      color: white;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      border-bottom: 4px solid #fb7185;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.5px;
+    }
+
+    header p {
+      font-size: 0.95rem;
+      color: #fecdd3;
+      max-width: 750px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 950px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.8rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #9f1239;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 650px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Editing Checklist */
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      background: #fff1f2;
+      border: 1px solid #fecdd3;
+      padding: 0.8rem 1rem;
+      border-radius: 6px;
+      margin-bottom: 0.6rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .checklist-item:hover {
+      background: #ffe4e6;
+    }
+
+    .checklist-item input[type="checkbox"] {
+      width: 1.2rem;
+      height: 1.2rem;
+      margin-top: 0.2rem;
+      cursor: pointer;
+    }
+
+    .checklist-text strong {
+      display: block;
+      color: #881337;
+      font-size: 0.95rem;
+    }
+
+    .checklist-text small {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* Table */
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.75rem 0.9rem;
+      text-align: left;
+    }
+
+    th {
+      background-color: #ffe4e6;
+      color: #881337;
+    }
+
+    /* Studio Writing Area */
+    .word-counter-badge {
+      display: inline-block;
+      background: #f1f5f9;
+      padding: 0.3rem 0.7rem;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    textarea, input[type="text"] {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      margin-top: 0.4rem;
+      margin-bottom: 0.8rem;
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+
+    textarea:focus, input[type="text"]:focus {
+      outline: none;
+      border-color: #e11d48;
+      box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.15);
+    }
+
+    .btn {
+      background: #e11d48;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.4rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background: #be123c;
+    }
+
+    .btn-secondary {
+      background: #475569;
+    }
+
+    .btn-secondary:hover {
+      background: #334155;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Modul Interaktif: Pertemuan 6</h1>
+    <p>Studio Penulisan Kreatif, Laboratorium Swasunting (Self-Editing), & Publikasi Cerita Fantasi</p>
+  </header>
+
+  <main class="container">
+
+    <!-- Section 1: Rubric Overview -->
+    <section class="card">
+      <div class="card-title">
+        <span>📊</span> 1. Rubrik Penilaian Sumatif Cerita Fantasi
+      </div>
+      <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 0.8rem;">
+        Karya cerita fantasi dinilai berdasarkan 4 kriteria utama dengan rentang skor 1–4:
+      </p>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Kriteria</th>
+              <th>Sangat Baik (Skor 4)</th>
+              <th>Baik (Skor 3)</th>
+              <th>Cukup (Skor 2)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Kelengkapan Struktur</strong></td>
+              <td>Orientasi, komplikasi (klimaks jelas), dan resolusi tersusun sangat runtut.</td>
+              <td>Struktur lengkap, tetapi perpindahan antarbagian terasa terburu-buru.</td>
+              <td>Salah satu struktur tidak lengkap (misal: konflik tanpa penyelesaian).</td>
+            </tr>
+            <tr>
+              <td><strong>Kekayaan Imajinasi</strong></td>
+              <td>Unsur magis/sains orisinal, konsisten dengan aturan semesta yang logis.</td>
+              <td>Ada unsur magis tetapi klise/meniru tanpa aturan batasan yang jelas.</td>
+              <td>Unsur fantasi minim dan terasa seperti cerita kehidupan sehari-hari biasa.</td>
+            </tr>
+            <tr>
+              <td><strong>Piranti Kebahasaan</strong></td>
+              <td>Menerapkan <em>Show Don't Tell</em>, dialog tertata rapi sesuai tanda baca PUEBI.</td>
+              <td>Deskripsi cukup hidup, ada sedikit kesalahan penulisan tanda petik dialog.</td>
+              <td>Cerita didominasi kalimat hambar (<em>Telling</em>) dan tanda baca tidak teratur.</td>
+            </tr>
+            <tr>
+              <td><strong>Nilai Moral / Refleksi</strong></td>
+              <td>Pesan moral tersirat kuat melalui tindakan nyata dan perjuangan tokoh.</td>
+              <td>Pesan moral ada, namun disampaikan secara eksplisit/menggurui.</td>
+              <td>Pesan moral tidak tampak atau membingungkan.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 2: Self-Editing Checklist -->
+    <section class="card">
+      <div class="card-title">
+        <span>🔍</span> 2. Laboratorium Swasunting Mandiri (Self-Assessment)
+      </div>
+      <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1rem;">
+        Sebelum naskah dikumpulkan, lakukan pemeriksaan mandiri dengan mencentang butir kualitas berikut:
+      </p>
+
+      <label class="checklist-item">
+        <input type="checkbox" id="chk-1" onchange="updateCheckProgress()">
+        <div class="checklist-text">
+          <strong>1. Kejelasan Struktur Tiga Babak</strong>
+          <small>Cerita memiliki bagian pembuka (orientasi), pertarungan puncak (klimaks), dan akhir yang tuntas (resolusi).</small>
+        </div>
+      </label>
+
+      <label class="checklist-item">
+        <input type="checkbox" id="chk-2" onchange="updateCheckProgress()">
+        <div class="checklist-text">
+          <strong>2. Konsistensi Hukum Keajaiban & Karakter</strong>
+          <small>Tokoh tidak menang secara tiba-tiba tanpa pengorbanan, dan aturan sihir/teknologi tidak melanggar batasan awal.</small>
+        </div>
+      </label>
+
+      <label class="checklist-item">
+        <input type="checkbox" id="chk-3" onchange="updateCheckProgress()">
+        <div class="checklist-text">
+          <strong>3. Penerapan Teknik "Show, Don't Tell"</strong>
+          <small>Suasana takut, tegang, atau magis digambarkan lewat panca indra, bukan sekadar kata sifat datar.</small>
+        </div>
+      </label>
+
+      <label class="checklist-item">
+        <input type="checkbox" id="chk-4" onchange="updateCheckProgress()">
+        <div class="checklist-text">
+          <strong>4. Ketepatan Ejaan & Dialog Langsung</strong>
+          <small>Tanda petik dialog ("...") diletakkan dengan benar dan huruf kapital digunakan secara tepat.</small>
+        </div>
+      </label>
+
+      <div id="check-status" style="margin-top: 0.8rem; font-size: 0.9rem; font-weight: bold; color: #9f1239;">
+        Kesiapan Naskah: 0 dari 4 kriteria terverifikasi.
+      </div>
+    </section>
+
+    <!-- Section 3: Final Production Studio (LKPD 6) -->
+    <section class="card">
+      <div class="card-title">
+        <span>✍️</span> 3. Studio Penulisan & Ekspor Karya Final (LKPD 6)
+      </div>
+
+      <form id="lkpd6-form">
+        <div class="grid-2">
+          <div>
+            <label for="student-name" style="font-weight: bold; font-size: 0.85rem;">Nama Penulis:</label>
+            <input type="text" id="student-name" placeholder="Nama lengkapmu..." required>
+          </div>
+          <div>
+            <label for="student-class" style="font-weight: bold; font-size: 0.85rem;">Kelas / No. Presensi:</label>
+            <input type="text" id="student-class" placeholder="Contoh: 7-D / 01" required>
+          </div>
+        </div>
+
+        <label for="story-title" style="font-weight: bold; font-size: 0.9rem;">Judul Cerita Fantasi:</label>
+        <input type="text" id="story-title" placeholder="Contoh: Rahasia Kristal Chronos di Langit Ketujuh" required>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+          <label for="story-body" style="font-weight: bold; font-size: 0.9rem;">Naskah Cerita Fantasi Utuh:</label>
+          <span id="word-count" class="word-counter-badge">0 Kata (Target: 150 - 300 Kata)</span>
+        </div>
+        <textarea id="story-body" rows="12" placeholder="Kembangkan kerangka alur dari Pertemuan 5 menjadi naskah cerita lengkap di sini..." oninput="countWords()" required></textarea>
+
+        <label for="story-moral" style="font-weight: bold; font-size: 0.9rem;">Pesan Moral / Nilai Kehidupan yang Tersirat:</label>
+        <input type="text" id="story-moral" placeholder="Contoh: Keberanian sejati adalah saat kita berani mengakui kesalahan dan berkorban demi orang lain.">
+
+        <div style="display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap;">
+          <button type="button" class="btn" onclick="downloadLKPD6()">💾 Unduh Naskah Final (.TXT)</button>
+          <button type="reset" class="btn btn-secondary" onclick="resetCounter()">🔄 Reset Formulir</button>
+        </div>
+      </form>
+    </section>
+
+  </main>
+
+  <script>
+    // Live Word Counter
+    function countWords() {
+      let text = document.getElementById('story-body').value.trim();
+      let words = text === '' ? 0 : text.split(/\s+/).length;
+      let badge = document.getElementById('word-count');
+      
+      badge.innerText = `${words} Kata ${words >= 150 && words <= 300 ? '✅ (Panjang Ideal)' : words > 300 ? '⚠️ (Cukup Panjang)' : '⚠️ (Target: 150-300 kata)'}`;
+    }
+
+    function resetCounter() {
+      document.getElementById('word-count').innerText = "0 Kata (Target: 150 - 300 Kata)";
+      document.getElementById('check-status').innerText = "Kesiapan Naskah: 0 dari 4 kriteria terverifikasi.";
+    }
+
+    // Checklist Progress Tracker
+    function updateCheckProgress() {
+      let c1 = document.getElementById('chk-1').checked;
+      let c2 = document.getElementById('chk-2').checked;
+      let c3 = document.getElementById('chk-3').checked;
+      let c4 = document.getElementById('chk-4').checked;
+      
+      let count = [c1, c2, c3, c4].filter(Boolean).length;
+      let status = document.getElementById('check-status');
+      
+      if (count === 4) {
+        status.style.color = '#15803d';
+        status.innerText = `Kesiapan Naskah: 4 dari 4 kriteria terverifikasi! Naskah siap dipublikasikan. 🎉`;
+      } else {
+        status.style.color = '#9f1239';
+        status.innerText = `Kesiapan Naskah: ${count} dari 4 kriteria terverifikasi.`;
+      }
+    }
+
+    // Export LKPD 6 to .TXT File
+    function downloadLKPD6() {
+      let name = document.getElementById('student-name').value;
+      let sClass = document.getElementById('student-class').value;
+      let title = document.getElementById('story-title').value;
+      let body = document.getElementById('story-body').value;
+      let moral = document.getElementById('story-moral').value;
+
+      if (!name || !sClass || !title || !body) {
+        alert('Mohon lengkapi Nama, Kelas, Judul, dan Naskah Cerita terlebih dahulu!');
+        return;
+      }
+
+      let wordCount = body.trim().split(/\s+/).length;
+
+      let content = `======================================================================\n` +
+                    `               PORTOFOLIO AKHIR TEKS CERITA FANTASI                   \n` +
+                    `             Kurikulum Merdeka - Bahasa Indonesia Kelas 7             \n` +
+                    `======================================================================\n\n` +
+                    `Judul Cerita : "${title.toUpperCase()}"\n` +
+                    `Penulis      : ${name}\n` +
+                    `Kelas/Absen  : ${sClass}\n` +
+                    `Jumlah Kata  : ${wordCount} Kata\n` +
+                    `Tanggal Rilis: ${new Date().toLocaleDateString('id-ID')}\n\n` +
+                    `----------------------------------------------------------------------\n` +
+                    `NASKAH CERITA:\n` +
+                    `----------------------------------------------------------------------\n\n` +
+                    `${body}\n\n` +
+                    `----------------------------------------------------------------------\n` +
+                    `PESAN MORAL / REFLEKSI CERITA:\n` +
+                    `----------------------------------------------------------------------\n` +
+                    `"${moral || '(Belum dicantumkan)'}"\n\n` +
+                    `======================================================================\n` +
+                    `Status Verifikasi: Karya Orisinal Mandiri Terstruktur Telah Disusun.\n`;
+
+      let blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+      let link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `Naskah_Fantasi_${name.replace(/\s+/g, '_')}_Final.txt`;
+      link.click();
+      URL.revokeObjectURL(link.href);
+    }
+  </script>
+</body>
+</html>

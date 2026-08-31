@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pertemuan 3: Anatomi Alur & Tipologi Cerita Fantasi</title>
+  <style>
+    :root {
+      --primary: #0f766e;
+      --primary-light: #14b8a6;
+      --accent: #f59e0b;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border: #cbd5e1;
+      --success: #15803d;
+      --danger: #b91c1c;
+      --radius: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #115e59, #134e4a);
+      color: white;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      border-bottom: 4px solid var(--accent);
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.5px;
+    }
+
+    header p {
+      font-size: 0.95rem;
+      color: #99f6e4;
+      max-width: 750px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 950px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.8rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+
+    /* Interactive Climax Curve / Alur */
+    .plot-stepper {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin: 1.5rem 0 1rem 0;
+      position: relative;
+    }
+
+    .plot-step-btn {
+      flex: 1;
+      background: #f1f5f9;
+      border: 2px solid var(--border);
+      padding: 0.8rem 0.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .plot-step-btn:hover {
+      border-color: var(--primary-light);
+      background: #ccfbf1;
+    }
+
+    .plot-step-btn.active {
+      background: #0f766e;
+      color: white;
+      border-color: #0f766e;
+      box-shadow: 0 4px 10px rgba(15, 118, 110, 0.25);
+    }
+
+    .plot-info-box {
+      background: #f0fdfa;
+      border-left: 4px solid var(--primary);
+      padding: 1.2rem;
+      border-radius: 6px;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+    }
+
+    /* Typology Matrix */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 650px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+      .plot-stepper {
+        flex-direction: column;
+      }
+    }
+
+    .type-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.2rem;
+      background: #fafafa;
+    }
+
+    .type-card h3 {
+      font-size: 1rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .type-pill {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      background: #e2e8f0;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Table */
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.75rem 1rem;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f1f5f9;
+      color: var(--primary);
+    }
+
+    /* Form Components */
+    textarea, input[type="text"], select {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      margin-top: 0.4rem;
+      margin-bottom: 0.8rem;
+      font-size: 0.95rem;
+    }
+
+    textarea:focus, input[type="text"]:focus, select:focus {
+      outline: none;
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
+    }
+
+    .btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background: #115e59;
+    }
+
+    .btn-secondary {
+      background: #475569;
+    }
+
+    .btn-secondary:hover {
+      background: #334155;
+    }
+
+    /* Quiz Component */
+    .quiz-option {
+      display: block;
+      background: white;
+      border: 1px solid var(--border);
+      padding: 0.8rem 1rem;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .quiz-option:hover {
+      border-color: var(--primary-light);
+      background: #f0fdfa;
+    }
+
+    .quiz-option.correct {
+      background: #dcfce7;
+      border-color: var(--success);
+      color: var(--success);
+      font-weight: bold;
+    }
+
+    .quiz-option.incorrect {
+      background: #fee2e2;
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .feedback-box {
+      margin-top: 0.8rem;
+      padding: 0.8rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Modul Interaktif: Pertemuan 3</h1>
+    <p>Membedah Anatomi Alur Dramatik & Tipologi Ragam Kategori Cerita Fantasi</p>
+  </header>
+
+  <main class="container">
+
+    <!-- Section 1: Dynamic Plot Stepper -->
+    <section class="card">
+      <div class="card-title">
+        <span>📈</span> 1. Anatomi Tripartit & Eskalasi Alur Fantasi
+      </div>
+      <p style="font-size: 0.95rem; color: var(--text-muted);">
+        Struktur narasi cerita fantasi menggerakkan pembaca melalui kurva ketegangan yang terencana. Klik setiap tahapan di bawah untuk mempelajari fungsi struktural dan contoh implementasinya:
+      </p>
+
+      <div class="plot-stepper">
+        <button class="plot-step-btn active" onclick="showPlotDetail('orientasi', this)">
+          1. Orientasi<br><small style="font-weight: normal;">(Pengenalan)</small>
+        </button>
+        <button class="plot-step-btn" onclick="showPlotDetail('pemicu', this)">
+          2. Pemicu Konflik<br><small style="font-weight: normal;">(Insiden Awal)</small>
+        </button>
+        <button class="plot-step-btn" onclick="showPlotDetail('klimaks', this)">
+          3. Puncak Konflik<br><small style="font-weight: normal;">(Klimaks)</small>
+        </button>
+        <button class="plot-step-btn" onclick="showPlotDetail('peleraian', this)">
+          4. Peleraian<br><small style="font-weight: normal;">(Antiklimaks)</small>
+        </button>
+        <button class="plot-step-btn" onclick="showPlotDetail('resolusi', this)">
+          5. Resolusi<br><small style="font-weight: normal;">(Penyelesaian)</small>
+        </button>
+      </div>
+
+      <div id="plot-detail-box" class="plot-info-box">
+        <strong>Fase Orientasi:</strong> Bagian pembuka yang berfungsi memperkenalkan identitas tokoh utama, kebiasaannya, serta atmosfer dunia cerita (kondisi normal sebelum keajaiban atau krisis muncul).<br><br>
+        <em>Contoh Adegan:</em> "Di Lembah Aethel, Rian menghabiskan masa mudanya merawat pohon-pohon perak yang daunnya berdesir merdu saat fajar menyingsing."
+      </div>
+    </section>
+
+    <!-- Section 2: Typology Classification -->
+    <section class="card">
+      <div class="card-title">
+        <span>🗺️</span> 2. Matriks Klasifikasi Jenis Teks Fantasi
+      </div>
+      <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1rem;">
+        Berdasarkan acuan buku teks Kurikulum Merdeka Kemendikbudristek, cerita fantasi dibedakan ke dalam dua sudut pandang kategori:
+      </p>
+
+      <div class="grid-2">
+        <!-- Kategori 1: Realitas -->
+        <div class="type-card">
+          <h3><span>🌐</span> Berdasarkan Kesesuaian Realitas</h3>
+          <hr style="border: 0; border-top: 1px solid var(--border); margin: 0.5rem 0 0.8rem 0;">
+          
+          <span class="type-pill" style="background: #e0f2fe; color: #0369a1;">Fantasi Total</span>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.8rem;">
+            Semua unsur pada cerita (tokoh, nama kerajaan, flora/fauna, aturan fisika) murni hasil rekaan pengarang. Tidak ada nama tempat atau tokoh yang nyata di bumi.
+          </p>
+
+          <span class="type-pill" style="background: #fef3c7; color: #92400e;">Fantasi Irisan</span>
+          <p style="font-size: 0.88rem; color: var(--text-muted);">
+            Memadukan dunia khayalan dengan tempat nyata, tokoh sejarah, atau peristiwa faktual yang ada di dunia nyata (contoh: portal gaib di Candi Borobudur).
+          </p>
+        </div>
+
+        <!-- Kategori 2: Latar Waktu -->
+        <div class="type-card">
+          <h3><span>⏳</span> Berdasarkan Linimasa / Waktu</h3>
+          <hr style="border: 0; border-top: 1px solid var(--border); margin: 0.5rem 0 0.8rem 0;">
+          
+          <span class="type-pill" style="background: #dcfce7; color: #166534;">Latar Sezaman</span>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.8rem;">
+            Cerita hanya bergerak di satu masa saja: masa kini saja, masa purba/lampau saja, atau masa depan (futuristik) saja tanpa adanya perpindahan masa.
+          </p>
+
+          <span class="type-pill" style="background: #ede9fe; color: #6d28d9;">Latar Lintas Waktu</span>
+          <p style="font-size: 0.88rem; color: var(--text-muted);">
+            Tokoh mengalami perpindahan linimasa yang berbeda (misal: mesin waktu membawa siswa era 2026 kembali ke era Kerajaan Majapahit abad ke-14).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Critical Thinking Case Quiz -->
+    <section class="card">
+      <div class="card-title">
+        <span>🎯</span> 3. Uji Penalaran Kritis: Klasifikasi Cerita
+      </div>
+      <div id="quiz-container">
+        <p id="quiz-question" style="font-weight: 600; margin-bottom: 1rem;">
+          Bacalah sinopsis berikut:<br>
+          <em>"Tegar, seorang siswa SMP di Kota Bandung, menemukan koin perunggu antik di museum. Saat koin itu digosok, ia tersedot melintasi lorong waktu dan mendarat di pelabuhan Sunda Kelapa pada tahun 1527, di mana ia harus membantu seorang panglima perang menghentikan armada monster laut bersayap."</em><br><br>
+          Berdasarkan tipologinya, teks di atas diklasifikasikan sebagai jenis...
+        </p>
+        <div id="quiz-options">
+          <div class="quiz-option" onclick="checkQuiz(this, false, 'Salah. Cerita memuat tempat nyata (Kota Bandung, Sunda Kelapa) dan tahun nyata (1527), sehingga bukan fantasi total.')">
+            A. Fantasi Total dan Latar Sezaman
+          </div>
+          <div class="quiz-option" onclick="checkQuiz(this, false, 'Salah. Latar waktunya mengalami perpindahan dari masa kini ke abad ke-16 (lintas waktu), bukan sezaman.')">
+            B. Fantasi Irisan dan Latar Sezaman
+          </div>
+          <div class="quiz-option" onclick="checkQuiz(this, true, 'Tepat sekali! Fantasi Irisan karena memakai nama tempat nyata (Bandung & Sunda Kelapa), dan Lintas Waktu karena tokoh berpindah dari masa kini ke tahun 1527.')">
+            C. Fantasi Irisan dan Latar Lintas Waktu
+          </div>
+          <div class="quiz-option" onclick="checkQuiz(this, false, 'Salah. Tempat yang digunakan bukan fiktif total.')">
+            D. Fantasi Total dan Latar Lintas Waktu
+          </div>
+        </div>
+        <div id="quiz-feedback" class="feedback-box"></div>
+      </div>
+    </section>
+
+    <!-- Section 4: LKPD 3 - Pemetaan Alur & Tipologi -->
+    <section class="card">
+      <div class="card-title">
+        <span>📝</span> 4. Lembar Kerja Peserta Didik (LKPD 3: Pemetaan Alur)
+      </div>
+      <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
+        Rancang skema ketegangan alur cerita fantasi orisinalmu secara bertahap, lalu unduh hasilnya sebagai lembar portofolio pembelajaran.
+      </p>
+
+      <form id="lkpd3-form">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div>
+            <label for="student-name" style="font-weight: bold; font-size: 0.85rem;">Nama Siswa:</label>
+            <input type="text" id="student-name" placeholder="Nama lengkap..." required>
+          </div>
+          <div>
+            <label for="student-class" style="font-weight: bold; font-size: 0.85rem;">Kelas / No. Presensi:</label>
+            <input type="text" id="student-class" placeholder="Contoh: 7-D / 12" required>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div>
+            <label for="fantasy-type1" style="font-weight: bold; font-size: 0.85rem;">Kategori Realitas:</label>
+            <select id="fantasy-type1">
+              <option value="Fantasi Total">Fantasi Total (Murni Rekaan)</option>
+              <option value="Fantasi Irisan">Fantasi Irisan (Campuran Dunia Nyata)</option>
+            </select>
+          </div>
+          <div>
+            <label for="fantasy-type2" style="font-weight: bold; font-size: 0.85rem;">Kategori Linimasa:</label>
+            <select id="fantasy-type2">
+              <option value="Latar Sezaman">Latar Sezaman (Satu Era)</option>
+              <option value="Latar Lintas Waktu">Latar Lintas Waktu (Melintasi Masa)</option>
+            </select>
+          </div>
+        </div>
+
+        <label for="task-ori" style="font-weight: bold; font-size: 0.9rem; margin-top: 0.5rem; display: block;">
+          1. Peristiwa Bagian Orientasi:
+        </label>
+        <small style="color: var(--text-muted);">Bagaimana keadaan awal tokoh dan latarnya sebelum konflik terjadi?</small>
+        <textarea id="task-ori" rows="2" placeholder="Tuliskan adegan pembuka di sini..."></textarea>
+
+        <label for="task-komp" style="font-weight: bold; font-size: 0.9rem; margin-top: 0.5rem; display: block;">
+          2. Komplikasi (Pemicu & Puncak Konflik/Klimaks):
+        </label>
+        <small style="color: var(--text-muted);">Peristiwa ajaib/masalah apa yang muncul dan bagaimana ketegangan mencapai puncaknya?</small>
+        <textarea id="task-komp" rows="3" placeholder="Pemicu: ...&#10;Klimaks (Puncak Ketegangan): ..."></textarea>
+
+        <label for="task-res" style="font-weight: bold; font-size: 0.9rem; margin-top: 0.5rem; display: block;">
+          3. Bagian Resolusi (Penyelesaian Akhir):
+        </label>
+        <small style="color: var(--text-muted);">Bagaimana nasib tokoh dan bagaimana keadaan dunia setelah masalah teratasi?</small>
+        <textarea id="task-res" rows="2" placeholder="Tuliskan adegan penutup di sini..."></textarea>
+
+        <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+          <button type="button" class="btn" onclick="downloadLKPD3()">📥 Unduh Lembar Kerja (.TXT)</button>
+          <button type="reset" class="btn btn-secondary">🔄 Reset</button>
+        </div>
+      </form>
+    </section>
+
+  </main>
+
+  <script>
+    // Plot Detail Data
+    const plotDetails = {
+      orientasi: "<strong>Fase Orientasi:</strong> Bagian pembuka yang berfungsi memperkenalkan identitas tokoh utama, kebiasaannya, serta atmosfer dunia cerita (kondisi normal sebelum keajaiban atau krisis muncul).<br><br><em>Contoh Adegan:</em> 'Di Lembah Aethel, Rian menghabiskan masa mudanya merawat pohon-pohon perak yang daunnya berdesir merdu saat fajar menyingsing.'",
+      pemicu: "<strong>Pemicu Konflik (Inciting Incident):</strong> Peristiwa awal yang merusak kestabilan dunia normal tokoh. Bisa berupa penemuan artefak aneh, gerbang antar-ruang yang terbuka, atau datangnya ancaman misterius.<br><br><em>Contoh Adegan:</em> 'Seekor burung elang bermata api menjatuhkan gulungan perkamen yang menyala biru tepat di atas meja kerja Rian.'",
+      klimaks: "<strong>Puncak Konflik (Klimaks):</strong> Titik didih ketegangan tertinggi dalam cerita di mana tokoh harus berhadapan langsung dengan rintangan utama atau membuat keputusan hidup-mati yang mempertaruhkan nasib dunianya.<br><br><em>Contoh Adegan:</em> 'Ketika sang penguasa kegelapan membekukan seluruh lembah, Rian terpaksa mengorbankan kristal intinya untuk menyalakan kembali jantung perapian bumi.'",
+      peleraian: "<strong>Peleraian (Falling Action):</strong> Ketegangan mulai menurun secara bertahap. Akibat dari keputusan saat klimaks mulai terkuak dan situasi berangsur-angsur terkendali.<br><br><em>Contoh Adegan:</em> 'Kabut hitam perlahan menguap ke udara, memperlihatkan para penduduk lembah yang mulai sadar dari mantra tidur abadi.'",
+      resolusi: "<strong>Resolusi (Penyelesaian):</strong> Akhir cerita yang memaparkan tatanan baru setelah konflik usai. Dapat berakhir membahagiakan (happy ending), tragis (sad ending), atau menggantung rasa penasaran (cliffhanger).<br><br><em>Contoh Adegan:</em> 'Rian kini bukan lagi sekadar perawat pohon, melainkan penjaga gerbang cakrawala yang siap melindungi semesta.'"
+    };
+
+    function showPlotDetail(phase, el) {
+      document.querySelectorAll('.plot-step-btn').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('plot-detail-box').innerHTML = plotDetails[phase];
+    }
+
+    // Formative Quiz Logic
+    function checkQuiz(element, isCorrect, explanation) {
+      let options = document.querySelectorAll('.quiz-option');
+      options.forEach(opt => {
+        opt.style.pointerEvents = 'none';
+      });
+
+      let fb = document.getElementById('quiz-feedback');
+      fb.style.display = 'block';
+
+      if (isCorrect) {
+        element.classList.add('correct');
+        fb.style.background = '#dcfce7';
+        fb.style.color = '#15803d';
+        fb.innerHTML = `<strong>Jawaban Tepat!</strong> ${explanation}`;
+      } else {
+        element.classList.add('incorrect');
+        fb.style.background = '#fee2e2';
+        fb.style.color = '#b91c1c';
+        fb.innerHTML = `<strong>Jawaban Kurang Tepat.</strong> ${explanation}`;
+      }
+    }
+
+    // Export LKPD 3 to .TXT File
+    function downloadLKPD3() {
+      let name = document.getElementById('student-name').value;
+      let sClass = document.getElementById('student-class').value;
+      let type1 = document.getElementById('fantasy-type1').value;
+      let type2 = document.getElementById('fantasy-type2').value;
+      let ori = document.getElementById('task-ori').value;
+      let komp = document.getElementById('task-komp').value;
+      let res = document.getElementById('task-res').value;
+
+      if (!name || !sClass) {
+        alert('Mohon lengkapi Nama dan Kelas terlebih dahulu!');
+        return;
+      }
+
+      let content = `========================================================\n` +
+                    `LEMBAR KERJA PESERTA DIDIK (LKPD 3) - ALUR & TIPOLOGI FANTASI\n` +
+                    `Mata Pelajaran : Bahasa Indonesia Kelas 7\n` +
+                    `Kurikulum      : Kurikulum Merdeka (Deep Learning)\n` +
+                    `========================================================\n\n` +
+                    `Nama Siswa : ${name}\n` +
+                    `Kelas/Absen: ${sClass}\n` +
+                    `Tanggal    : ${new Date().toLocaleDateString('id-ID')}\n` +
+                    `Tipologi   : ${type1} | ${type2}\n\n` +
+                    `--------------------------------------------------------\n` +
+                    `1. TAHAP ORIENTASI (PENGENALAN DUNIA & TOKOH)\n` +
+                    `--------------------------------------------------------\n` +
+                    `${ori || '(Belum diisi)'}\n\n` +
+                    `--------------------------------------------------------\n` +
+                    `2. TAHAP KOMPLIKASI (PEMICU & PUNCAK KLIMAKS)\n` +
+                    `--------------------------------------------------------\n` +
+                    `${komp || '(Belum diisi)'}\n\n` +
+                    `--------------------------------------------------------\n` +
+                    `3. TAHAP RESOLUSI (AKHIR & PENYELESAIAN)\n` +
+                    `--------------------------------------------------------\n` +
+                    `${res || '(Belum diisi)'}\n\n` +
+                    `========================================================\n` +
+                    `Status: Peta Struktur Alur Narasi Telah Disusun.\n`;
+
+      let blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+      let link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `LKPD_3_Alur_Fantasi_${name.replace(/\s+/g, '_')}.txt`;
+      link.click();
+      URL.revokeObjectURL(link.href);
+    }
+  </script>
+</body>
+</html>
