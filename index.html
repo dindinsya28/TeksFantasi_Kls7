@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pertemuan 1: Selisik Semesta Puisi Rakyat</title>
+  <!-- Load jsPDF library for direct client-side student PDF export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     @media print {
       .no-print {
@@ -265,6 +267,22 @@
       background: #334155;
     }
 
+    .btn-pdf-work {
+      background: #047857;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-pdf-work:hover {
+      background: #065f46;
+    }
+
     /* Quiz Component */
     .quiz-option {
       display: block;
@@ -319,14 +337,14 @@
 <body>
 
   <header>
-    <div class="header-institution">SMPN 28 Bandung • Bahasa Indonesia Kelas VII</div>
+    <div class="header-institution">Teks Puisi Rakyat • Bahasa Indonesia SMPN 28 Bandung</div>
     <h1>Modul Interaktif: Pertemuan 1</h1>
     <p>Menyelami Nilai Filosofis, Struktur Metrik, dan Vitalitas Puisi Rakyat (Pantun, Gurindam, Syair)</p>
     
-    <!-- Tombol Ekspor PDF Interaktif -->
+    <!-- Tombol Ekspor PDF Keseluruhan Modul -->
     <div class="export-container no-print">
       <button class="btn-pdf" onclick="exportToPDF()">
-        <span>📄</span> Ekspor Halaman ke PDF
+        <span>📄</span> Ekspor Seluruh Modul ke PDF
       </button>
     </div>
   </header>
@@ -495,7 +513,7 @@
         <span>📝</span> 5. Lembar Kerja Peserta Didik (LKPD 1: Terstruktur)
       </div>
       <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
-        Isi lembar penugasan digital di bawah ini, lalu klik tombol <strong>"Unduh Lembar Kerja (.TXT)"</strong> untuk menyimpan hasilnya sebagai bukti portofolio tugas.
+        Isi lembar penugasan digital di bawah ini, lalu pilih jenis ekspor hasil kerja Anda (unduh sebagai dokumen TXT atau cetak/unduh langsung sebagai <strong>PDF Hasil Kerja Anak</strong>).
       </p>
 
       <form id="lkpd-form">
@@ -523,8 +541,9 @@
         <small style="color: var(--text-muted);">Susun 1 bait pantun 4 baris (pola rima a-b-a-b, 8-12 suku kata per baris).</small>
         <textarea id="task-3" rows="4" placeholder="Baris 1 (Sampiran): ...&#10;Baris 2 (Sampiran): ...&#10;Baris 3 (Isi): ...&#10;Baris 4 (Isi): ..."></textarea>
 
-        <div style="display: flex; gap: 0.5rem; margin-top: 1rem;" class="no-print">
+        <div style="display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap;" class="no-print">
           <button type="button" class="btn" onclick="downloadLKPD()">📥 Unduh Lembar Kerja (.TXT)</button>
+          <button type="button" class="btn-pdf-work" onclick="downloadStudentPDF()">📄 Unduh PDF Hasil Kerja Anak</button>
           <button type="reset" class="btn btn-secondary">🔄 Reset Formulir</button>
         </div>
       </form>
@@ -643,7 +662,97 @@
       URL.revokeObjectURL(link.href);
     }
 
-    // Export to PDF function via browser print or automated alert
+    // Export Student Work to PDF using jsPDF
+    function downloadStudentPDF() {
+      let name = document.getElementById('student-name').value;
+      let sClass = document.getElementById('student-class').value;
+      let t1 = document.getElementById('task-1').value;
+      let t2 = document.getElementById('task-2').value;
+      let t3 = document.getElementById('task-3').value;
+
+      if (!name || !sClass) {
+        alert('Mohon lengkapi Nama dan Kelas terlebih dahulu sebelum mengunduh PDF Hasil Kerja!');
+        return;
+      }
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      // Header styling
+      doc.setFillColor(30, 58, 138); // primary dark blue
+      doc.rect(0, 0, 210, 25, 'F');
+      
+      doc.setTextColor(255, 255, 255);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(12);
+      doc.text("SMPN 28 BANDUNG • LEMBAR KERJA PESERTA DIDIK (LKPD)", 105, 12, { align: "center" });
+      doc.setFontSize(9);
+      doc.setFont("helvetica", "normal");
+      doc.text("Mata Pelajaran: Bahasa Indonesia Kelas VII (Puisi Rakyat)", 105, 18, { align: "center" });
+
+      // Student info box
+      doc.setTextColor(15, 23, 42);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(10);
+      doc.text(`Nama Siswa : ${name}`, 15, 35);
+      doc.text(`Kelas / Absen : ${sClass}`, 15, 42);
+      doc.text(`Tanggal Cetak : ${new Date().toLocaleDateString('id-ID')}`, 135, 35);
+
+      doc.setDrawColor(203, 213, 225);
+      doc.line(15, 48, 195, 48);
+
+      let yPos = 56;
+
+      // Helper function to add structured task block
+      function addTaskBlock(title, textContent) {
+        if (yPos > 250) {
+          doc.addPage();
+          yPos = 20;
+        }
+        doc.setFillColor(241, 245, 249);
+        doc.roundedRect(15, yPos, 180, 8, 2, 2, 'F');
+        doc.setTextColor(30, 58, 138);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(10);
+        doc.text(title, 18, yPos + 5.5);
+        
+        yPos += 12;
+        doc.setTextColor(51, 65, 85);
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(9.5);
+        
+        let splitText = doc.splitTextToSize(textContent || '(Belum diisi oleh siswa)', 174);
+        doc.text(splitText, 18, yPos);
+        yPos += (splitText.length * 5) + 8;
+      }
+
+      addTaskBlock("Tugas 1: Analisis Filosofis Makna Pantun", t1);
+      addTaskBlock("Tugas 2: Cipta Gurindam Orisinal (Syarat & Akibat)", t2);
+      addTaskBlock("Tugas 3: Cipta Pantun Nasihat Lingkungan Hidup", t3);
+
+      // Footer signature space
+      if (yPos > 230) {
+        doc.addPage();
+        yPos = 30;
+      } else {
+        yPos += 10;
+      }
+
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(9);
+      doc.text("Mengetahui,", 35, yPos);
+      doc.text("Bandung, " + new Date().toLocaleDateString('id-ID'), 145, yPos);
+      doc.text("Guru Mata Pelajaran", 35, yPos + 5);
+      doc.text("Peserta Didik", 145, yPos + 5);
+
+      doc.text("( .......................................... )", 25, yPos + 25);
+      doc.text(`( ${name} )`, 135, yPos + 25);
+
+      // Save PDF
+      doc.save(`LKPD_Puisi_Rakyat_${name.replace(/\s+/g, '_')}.pdf`);
+    }
+
+    // Export to PDF function for full page
     function exportToPDF() {
       window.print();
     }
