@@ -369,6 +369,30 @@
       font-size: 0.9rem;
       color: var(--text-muted);
     }
+
+    /* Hidden print styling for PDF export layout */
+    #pdf-print-area {
+      display: none;
+    }
+
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #pdf-print-area, #pdf-print-area * {
+        visibility: visible;
+      }
+      #pdf-print-area {
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        padding: 20px;
+        background: white;
+        color: black;
+      }
+    }
   </style>
 </head>
 <body>
@@ -588,7 +612,7 @@
         <span>📝</span> 4. Lembar Kerja Peserta Didik (LKPD 2: Analisis Unsur Intrinsik Fantasi Lokal)
       </div>
       <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
-        Rancanglah konsep dasar sebuah cerita fantasi bernuansa lokal Nusantara berdasarkan pemahaman unsur intrinsik Bab 2 Kurikulum Merdeka. Unduh hasil kerjamu setelah selesai.
+        Rancanglah konsep dasar sebuah cerita fantasi bernuansa lokal Nusantara berdasarkan pemahaman unsur intrinsik Bab 2 Kurikulum Merdeka. Unduh hasil kerjamu ke dalam dokumen PDF yang rapi.
       </p>
 
       <form id="lkpd2-form">
@@ -613,22 +637,71 @@
           2. Tokoh & Penokohan (Karakter & Kekuatan/Kelemahan):
         </label>
         <small style="color: var(--text-muted);">Sebutkan nama tokoh utama, sifat, kekuatan khusus, serta kelemahannya.</small>
-        <textarea id="task-character" rows="3" placeholder="Nama Tokoh: ...&#10;Watak: ...&#10;Kekuatan/Keistimewaan: ...&#10;Kelemahan: ..."></textarea>
+        <textarea id="task-character" rows="3" placeholder="Nama Tokoh: ...\nWatak: ...\nKekuatan/Keistimewaan: ...\nKelemahan: ..."></textarea>
 
         <label for="task-setting" style="font-weight: bold; font-size: 0.9rem; margin-top: 0.5rem; display: block;">
           3. Latar (Tempat, Waktu, Suasana) & Aturan Keajaiban:
         </label>
         <small style="color: var(--text-muted);">Jelaskan latar tempat tradisional lokal dan hukum keajaiban yang berlaku.</small>
-        <textarea id="task-setting" rows="3" placeholder="Latar Tempat/Waktu: ...&#10;Aturan Keajaiban: (Misal: Kekuatan selendang aktif saat ditarikan di balai desa tua)"></textarea>
+        <textarea id="task-setting" rows="3" placeholder="Latar Tempat/Waktu: ...\nAturan Keajaiban: (Misal: Kekuatan selendang aktif saat ditarikan di balai desa tua)"></textarea>
 
         <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-          <button type="button" class="btn" onclick="downloadLKPD2()">📥 Unduh Lembar Kerja (.TXT)</button>
+          <button type="button" class="btn" onclick="generatePDF()">📥 Cetak / Unduh Lembar Kerja (.PDF)</button>
           <button type="reset" class="btn btn-secondary">🔄 Reset</button>
         </div>
       </form>
     </section>
 
   </main>
+
+  <!-- Hidden Printable Area for PDF Generation -->
+  <div id="pdf-print-area">
+    <div style="text-align: center; border-bottom: 2px solid #312e81; padding-bottom: 15px; margin-bottom: 20px;">
+      <h2 style="color: #312e81; font-size: 20px; margin-bottom: 5px;">LEMBAR KERJA PESERTA DIDIK (LKPD 2)</h2>
+      <p style="font-size: 14px; color: #475569; font-weight: bold;">Mata Pelajaran: Bahasa Indonesia Kelas 7 Bab 2 (Kurikulum Merdeka)</p>
+    </div>
+
+    <table style="width: 100%; margin-bottom: 25px; border-collapse: collapse; font-size: 14px;">
+      <tr>
+        <td style="padding: 6px 0; width: 25%; font-weight: bold; color: #1e1b4b;">Nama Siswa</td>
+        <td style="padding: 6px 0; width: 75%;">: <span id="print-name" style="font-weight: bold;">-</span></td>
+      </tr>
+      <tr>
+        <td style="padding: 6px 0; font-weight: bold; color: #1e1b4b;">Kelas / No. Absen</td>
+        <td style="padding: 6px 0;">: <span id="print-class" style="font-weight: bold;">-</span></td>
+      </tr>
+      <tr>
+        <td style="padding: 6px 0; font-weight: bold; color: #1e1b4b;">Tanggal Pengerjaan</td>
+        <td style="padding: 6px 0;">: <span id="print-date">-</span></td>
+      </tr>
+    </table>
+
+    <div style="margin-bottom: 20px;">
+      <h4 style="font-size: 14px; color: #4338ca; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px; margin-bottom: 8px;">1. Tema & Ide Cerita Fantasi Lokal</h4>
+      <p id="print-premise" style="font-size: 13px; color: #0f172a; white-space: pre-wrap; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0; min-height: 40px;">-</p>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+      <h4 style="font-size: 14px; color: #4338ca; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px; margin-bottom: 8px;">2. Tokoh, Penokohan & Kekuatan/Kelemahan</h4>
+      <p id="print-character" style="font-size: 13px; color: #0f172a; white-space: pre-wrap; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0; min-height: 50px;">-</p>
+    </div>
+
+    <div style="margin-bottom: 30px;">
+      <h4 style="font-size: 14px; color: #4338ca; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px; margin-bottom: 8px;">3. Latar & Aturan Hukum Keajaiban</h4>
+      <p id="print-setting" style="font-size: 13px; color: #0f172a; white-space: pre-wrap; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0; min-height: 50px;">-</p>
+    </div>
+
+    <div style="margin-top: 40px; display: flex; justify-content: space-between; font-size: 13px;">
+      <div style="text-align: center; width: 200px;">
+        <p style="margin-bottom: 60px;">Mengetahui,<br>Guru Mata Pelajaran</p>
+        <p style="border-bottom: 1px solid #000; font-weight: bold;">( ......................................... )</p>
+      </div>
+      <div style="text-align: center; width: 200px;">
+        <p style="margin-bottom: 60px;">Bandung, <span id="print-sign-date"></span><br>Siswa Bersangkutan</p>
+        <p id="print-sign-name" style="border-bottom: 1px solid #000; font-weight: bold;">( ......................................... )</p>
+      </div>
+    </div>
+  </div>
 
   <script>
     // Elements Explorer Controller
@@ -662,7 +735,6 @@
         selectedOption.classList.add('correct');
       } else {
         selectedOption.classList.add('incorrect');
-        // Highlight the correct one as well
         options.forEach(opt => {
           if (opt.getAttribute('onclick').includes('true')) {
             opt.classList.add('correct');
@@ -681,75 +753,34 @@
       }
     }
 
-    // Export LKPD 2 to .TXT File
-    function downloadLKPD2() {
-      let name = document.getElementById('student-name').value;
-      let sClass = document.getElementById('student-class').value;
-      let premise = document.getElementById('task-premise').value;
-      let character = document.getElementById('task-character').value;
-      let setting = document.getElementById('task-setting').value;
+    // PDF Export Function using browser native print layout
+    function generatePDF() {
+      let name = document.getElementById('student-name').value.trim();
+      let sClass = document.getElementById('student-class').value.trim();
+      let premise = document.getElementById('task-premise').value.trim();
+      let character = document.getElementById('task-character').value.trim();
+      let setting = document.getElementById('task-setting').value.trim();
 
       if (!name || !sClass) {
-        alert('Mohon lengkapi Nama dan Kelas terlebih dahulu!');
+        alert('Mohon lengkapi Nama dan Kelas terlebih dahulu sebelum mencetak PDF!');
+        document.getElementById('student-name').focus();
         return;
       }
 
-      let content = `========================================================
-` +
-                    `LEMBAR KERJA PESERTA DIDIK (LKPD 2) - UNSUR INTRINSIK FANTASI LOKAL
-` +
-                    `Mata Pelajaran : Bahasa Indonesia Kelas 7 Bab 2
-` +
-                    `Kurikulum      : Kurikulum Merdeka
-` +
-                    `========================================================
+      let currentDate = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
 
-` +
-                    `Nama Siswa : ${name}
-` +
-                    `Kelas/Absen: ${sClass}
-` +
-                    `Tanggal    : ${new Date().toLocaleDateString('id-ID')}
+      // Populate print area fields
+      document.getElementById('print-name').innerText = name;
+      document.getElementById('print-class').innerText = sClass;
+      document.getElementById('print-date').innerText = currentDate;
+      document.getElementById('print-premise').innerText = premise || '(Belum diisi)';
+      document.getElementById('print-character').innerText = character || '(Belum diisi)';
+      document.getElementById('print-setting').innerText = setting || '(Belum diisi)';
+      document.getElementById('print-sign-date').innerText = currentDate;
+      document.getElementById('print-sign-name').innerText = `( ${name} )`;
 
-` +
-                    `--------------------------------------------------------
-` +
-                    `1. TEMA & IDE CERITA FANTASI LOKAL
-` +
-                    `--------------------------------------------------------
-` +
-                    `${premise || '(Belum diisi)'}
-
-` +
-                    `--------------------------------------------------------
-` +
-                    `2. TOKOH, PENOKOHAN & KEKUATAN/KELEMAHAN
-` +
-                    `--------------------------------------------------------
-` +
-                    `${character || '(Belum diisi)'}
-
-` +
-                    `--------------------------------------------------------
-` +
-                    `3. LATAR & ATURAN HUKUM KEAJAIBAN
-` +
-                    `--------------------------------------------------------
-` +
-                    `${setting || '(Belum diisi)'}
-
-` +
-                    `========================================================
-` +
-                    `Status: Draf Analisis Unsur Intrinsik Berhasil Dibuat.
-`;
-
-      let blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-      let link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = `LKPD_2_Fantasi_Lokal_${name.replace(/\s+/g, '_')}.txt`;
-      link.click();
-      URL.revokeObjectURL(link.href);
+      // Trigger browser print dialog formatted specifically for PDF saving
+      window.print();
     }
   </script>
 </body>
